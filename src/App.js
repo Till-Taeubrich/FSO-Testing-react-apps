@@ -8,6 +8,9 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [titleInput, setTitleInput] = useState('')
+  const [authorInput, setAuthorInput] = useState('')
+  const [urlInput, setUrlInput] = useState('')
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -20,6 +23,7 @@ const App = () => {
         'loggedUser', JSON.stringify(user)
       )
 
+      blogService.setToken(user.token)
       setUsername('')
       setPassword('')
     } catch (error) {
@@ -29,7 +33,7 @@ const App = () => {
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
-      <div class="username-input">
+      <div className="username-input">
         Username
         <input
           type="text"
@@ -38,7 +42,7 @@ const App = () => {
           onChange={({ target }) => setUsername(target.value)}
           />
       </div>
-      <div class="password-input">
+      <div className="password-input">
         Password
         <input
           type="text"
@@ -55,6 +59,32 @@ const App = () => {
     setUser(null)
 
     window.localStorage.removeItem('loggedUser')
+  }
+
+  const handleTitle = (e) => {
+    setTitleInput(e.target.value)
+  }
+
+  const handleAuthor = (e) => {
+    setAuthorInput(e.target.value)
+  }
+
+  const handleUrl = (e) => {
+    setUrlInput(e.target.value)
+  }
+
+  const handleNewBlog = async (e) => {
+    e.preventDefault()
+
+    blogService.create({
+      title: titleInput,
+      author: authorInput,
+      url: urlInput
+    })
+
+    const blogs = await blogService.getAll()
+
+    setBlogs(blogs)
   }
 
   useEffect(() => {
@@ -86,18 +116,21 @@ const App = () => {
       <button onClick={ handleLogout }>logout</button>
       <h2>blogs</h2>
       <div>{ user.username } logged in</div>
-      <div class="title-input">
-        <label for="title">title: </label>
-        <input id="title" type="text" />
-      </div>
-      <div class="author-input">
-        <label for="author">author: </label>
-        <input id="author" type="text" />
-      </div>
-      <div class="url-input">
-        <label for="url">url: </label>
-        <input id="url" type="text" />
-      </div>
+      <form onSubmit={ handleNewBlog }>
+        <div className="title-input">
+          <label htmlFor="title">title: </label>
+          <input id="title" type="text" onChange={ handleTitle } />
+        </div>
+        <div className="author-input">
+          <label htmlFor="author">author: </label>
+          <input id="author" type="text" onChange={ handleAuthor } />
+        </div>
+        <div className="url-input">
+          <label htmlFor="url">url: </label>
+          <input id="url" type="text" onChange={ handleUrl } />
+        </div>
+        <button type="submit">create</button>
+      </form>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
