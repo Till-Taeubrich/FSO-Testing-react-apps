@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import NotificationBar from './components/NotificationBar'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -11,6 +12,7 @@ const App = () => {
   const [titleInput, setTitleInput] = useState('')
   const [authorInput, setAuthorInput] = useState('')
   const [urlInput, setUrlInput] = useState('')
+  const [notification, setNotification] = useState('')
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -27,7 +29,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (error) {
-      console.log('Wrong credentials');
+      showNotification('wrong username or password');
     }
   }
 
@@ -76,7 +78,7 @@ const App = () => {
   const handleNewBlog = async (e) => {
     e.preventDefault()
 
-    blogService.create({
+    await blogService.create({
       title: titleInput,
       author: authorInput,
       url: urlInput
@@ -85,6 +87,15 @@ const App = () => {
     const blogs = await blogService.getAll()
 
     setBlogs(blogs)
+    showNotification(`a new blog ${titleInput} by ${authorInput} added`)
+  }
+
+  const showNotification = ( newMessage ) => {
+    setNotification(newMessage)
+
+    setTimeout(() => {
+      setNotification('')
+    }, 5000);
   }
 
   useEffect(() => {
@@ -105,6 +116,7 @@ const App = () => {
   if (user === null) {
     return (
       <div>
+        <NotificationBar notification={notification} />
         <h2>Log in to application</h2>
         {loginForm()}
       </div>
@@ -113,6 +125,7 @@ const App = () => {
 
   return (
     <div>
+      <NotificationBar notification={notification} />
       <button onClick={ handleLogout }>logout</button>
       <h2>blogs</h2>
       <div>{ user.username } logged in</div>
