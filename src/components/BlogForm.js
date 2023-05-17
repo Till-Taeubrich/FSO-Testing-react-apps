@@ -2,10 +2,14 @@ const BlogForm = ({
   handleNewBlog,
   handleTitle,
   handleAuthor,
-  handleUrl
+  handleUrl,
+  blogFormVisible
 }) => {
-  return(
-    <form onSubmit={ handleNewBlog }>
+
+  const showWhenVisible = { display: blogFormVisible ? 'none' : '' }
+
+  return (
+    <form onSubmit={ handleNewBlog } style={showWhenVisible}>
       <div className="title-input">
         <label htmlFor="title">title: </label>
         <input id="title" type="text" onChange={ handleTitle } />

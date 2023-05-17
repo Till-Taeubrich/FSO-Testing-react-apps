@@ -14,6 +14,7 @@ const App = () => {
   const [authorInput, setAuthorInput] = useState('')
   const [urlInput, setUrlInput] = useState('')
   const [notification, setNotification] = useState('')
+  const [blogFormVisible, setBlogFormVisible] = useState(false)
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -99,6 +100,10 @@ const App = () => {
     }, 5000);
   }
 
+  const toggleBlogForm = () => {
+    setBlogFormVisible(!blogFormVisible)
+  }
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -135,7 +140,9 @@ const App = () => {
         handleTitle={handleTitle}
         handleAuthor={handleAuthor}
         handleUrl={handleUrl}
+        blogFormVisible={blogFormVisible}
       />
+      <button onClick={toggleBlogForm}>New Note</button>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
