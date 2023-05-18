@@ -83,16 +83,22 @@ const App = () => {
   const handleNewBlog = async (e) => {
     e.preventDefault()
 
-    await blogService.create({
-      title: titleInput,
-      author: authorInput,
-      url: urlInput
-    })
+    try {
+      await blogService.create({
+        title: titleInput,
+        author: authorInput,
+        url: urlInput
+      })
 
-    const blogs = await blogService.getAll()
+      const blogs = await blogService.getAll()
 
-    setBlogs(blogs)
-    showNotification(`a new blog ${titleInput} by ${authorInput} added`)
+      setBlogs(blogs)
+      setBlogFormVisible(false)
+      showNotification(`a new blog ${titleInput} by ${authorInput} added`)
+    } catch (error) {
+      showNotification(`adding new blog failed`)
+    }
+
   }
 
   const showNotification = ( newMessage ) => {
