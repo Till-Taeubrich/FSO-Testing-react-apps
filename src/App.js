@@ -10,14 +10,8 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [titleInput, setTitleInput] = useState('')
-  const [authorInput, setAuthorInput] = useState('')
-  const [urlInput, setUrlInput] = useState('')
   const [notification, setNotification] = useState('')
   const [blogFormVisible, setBlogFormVisible] = useState(false)
-
-  const showWhenVisible = { display: blogFormVisible ? '' : 'none' }
-  const showWhenHidden = { display: blogFormVisible ? 'none' : '' }
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -68,39 +62,6 @@ const App = () => {
     window.localStorage.removeItem('loggedUser')
   }
 
-  const handleTitle = (e) => {
-    setTitleInput(e.target.value)
-  }
-
-  const handleAuthor = (e) => {
-    setAuthorInput(e.target.value)
-  }
-
-  const handleUrl = (e) => {
-    setUrlInput(e.target.value)
-  }
-
-  const handleNewBlog = async (e) => {
-    e.preventDefault()
-
-    try {
-      await blogService.create({
-        title: titleInput,
-        author: authorInput,
-        url: urlInput
-      })
-
-      const blogs = await blogService.getAll()
-
-      setBlogs(blogs)
-      setBlogFormVisible(false)
-      showNotification(`a new blog ${titleInput} by ${authorInput} added`)
-    } catch (error) {
-      showNotification(`adding new blog failed`)
-    }
-
-  }
-
   const showNotification = ( newMessage ) => {
     setNotification(newMessage)
 
@@ -109,9 +70,6 @@ const App = () => {
     }, 5000);
   }
 
-  const toggleBlogForm = () => {
-    setBlogFormVisible(!blogFormVisible)
-  }
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -145,14 +103,9 @@ const App = () => {
       <h2>blogs</h2>
       <div>{ user.username } logged in</div>
       <BlogForm 
-        handleNewBlog={handleNewBlog}
-        handleTitle={handleTitle}
-        handleAuthor={handleAuthor}
-        handleUrl={handleUrl}
-        showWhenVisible={showWhenVisible}
+        setBlogs={setBlogs}
+        showNotification={showNotification}
       />
-      <button style={showWhenHidden} onClick={toggleBlogForm}>New Note</button>
-      <button style={showWhenVisible} onClick={toggleBlogForm}>Cancel</button>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
