@@ -3,10 +3,9 @@ const BlogForm = ({
   handleTitle,
   handleAuthor,
   handleUrl,
-  blogFormVisible
+  showWhenVisible
 }) => {
 
-  const showWhenVisible = { display: blogFormVisible ? 'none' : '' }
 
   return (
     <form onSubmit={ handleNewBlog } style={showWhenVisible}>

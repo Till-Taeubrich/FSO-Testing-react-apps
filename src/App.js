@@ -16,6 +16,9 @@ const App = () => {
   const [notification, setNotification] = useState('')
   const [blogFormVisible, setBlogFormVisible] = useState(false)
 
+  const showWhenVisible = { display: blogFormVisible ? '' : 'none' }
+  const showWhenHidden = { display: blogFormVisible ? 'none' : '' }
+
   const handleLogin = async (e) => {
     e.preventDefault()
     
@@ -140,9 +143,10 @@ const App = () => {
         handleTitle={handleTitle}
         handleAuthor={handleAuthor}
         handleUrl={handleUrl}
-        blogFormVisible={blogFormVisible}
+        showWhenVisible={showWhenVisible}
       />
-      <button onClick={toggleBlogForm}>New Note</button>
+      <button style={showWhenHidden} onClick={toggleBlogForm}>New Note</button>
+      <button style={showWhenVisible} onClick={toggleBlogForm}>Cancel</button>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
