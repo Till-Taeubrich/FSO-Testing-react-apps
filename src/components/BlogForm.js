@@ -69,7 +69,7 @@ const BlogForm = ({
       </div>
       <button type="submit">create</button>
     </form>
-    <button onClick={toggleBlogForm} style={showWhenHidden}>New Note</button>
+    <button onClick={toggleBlogForm} style={showWhenHidden}>Create new blog</button>
     <button onClick={toggleBlogForm} style={showWhenVisible}>Cancel</button>
     </>
   )
