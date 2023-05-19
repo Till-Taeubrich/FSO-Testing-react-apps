@@ -34,11 +34,13 @@ const BlogForm = ({
     e.preventDefault()
 
     try {
-      await blogService.create({
+      const test = await blogService.create({
         title: titleInput,
         author: authorInput,
         url: urlInput
       })
+
+      console.log(test);
 
       const blogs = await blogService.getAll()
 
