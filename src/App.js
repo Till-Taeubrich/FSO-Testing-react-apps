@@ -13,10 +13,17 @@ const App = () => {
   const [notification, setNotification] = useState('')
   const [blogFormVisible, setBlogFormVisible] = useState(false)
 
-  const refreshBlogs = () => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
+  const getBlogs = async () => {
+    return await blogService.getAll()
+  }
+
+  const refreshBlogs = async () => {
+    const blogData = await getBlogs()
+    const sortedBlogs = blogData.sort((blogOne, blogTwo) => {
+      return blogOne.likes < blogTwo.likes
+    }) 
+
+    setBlogs( sortedBlogs )
   }
 
   const handleLogin = async (e) => {
