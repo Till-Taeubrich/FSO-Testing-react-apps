@@ -21,5 +21,12 @@ const create = async newBlog => {
   return response.data
 }
 
+const replace = async blogData => {
+  const replaceUrl = `${baseUrl}/${blogData.id}`
+
+  const response = await axios.put(replaceUrl, blogData)
+  return response.data
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, setToken }
+export default { setToken, getAll, create, replace }

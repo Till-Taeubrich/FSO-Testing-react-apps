@@ -13,6 +13,12 @@ const App = () => {
   const [notification, setNotification] = useState('')
   const [blogFormVisible, setBlogFormVisible] = useState(false)
 
+  const refreshBlogs = () => {
+    blogService.getAll().then(blogs =>
+      setBlogs( blogs )
+    )
+  }
+
   const handleLogin = async (e) => {
     e.preventDefault()
     
@@ -72,9 +78,7 @@ const App = () => {
 
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    refreshBlogs()
   }, [])
 
   useEffect(() => {
@@ -107,7 +111,7 @@ const App = () => {
         showNotification={showNotification}
       />
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} refreshBlogs={refreshBlogs} />
       )}
     </div>
   )

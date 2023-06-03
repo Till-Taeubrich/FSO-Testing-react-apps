@@ -1,7 +1,9 @@
 import { useState } from "react"
+import blogService from '../services/blogs'
 
 const Blog = ({
-  blog
+  blog,
+  refreshBlogs
 }) => {
 
   const blogStyle = {
@@ -16,6 +18,21 @@ const Blog = ({
 
   const showWhenVisible = { display: showAllInfo ? '' : 'none' }
 
+  const increaseLikes = async () => {
+
+    const blogData = {
+      id: blog.id,
+      user: blog.user.id,
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1
+    }
+
+    await blogService.replace(blogData)
+    refreshBlogs()
+  }
+
   return (
     <div style={blogStyle}>
       <div>
@@ -26,7 +43,7 @@ const Blog = ({
           {blog.url} 
         </div>
         <div>
-          {blog.likes} 
+          {blog.likes} <button onClick={increaseLikes}>Like</button>
         </div>
         <div>
           {blog.username} 
