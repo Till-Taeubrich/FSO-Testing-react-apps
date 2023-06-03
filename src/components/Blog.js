@@ -49,7 +49,7 @@ const Blog = ({
           {blog.username} 
         </div>
       </div>
-      <button onClick={() => setShowAllInfo(!showAllInfo)}>view</button>
+      <button onClick={() => setShowAllInfo(!showAllInfo)}>{showAllInfo ? 'close' : 'view'}</button>
     </div>
   )
 }
