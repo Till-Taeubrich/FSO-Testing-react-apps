@@ -3,6 +3,7 @@ import blogService from '../services/blogs'
 
 const Blog = ({
   blog,
+  user,
   refreshBlogs
 }) => {
 
@@ -33,6 +34,18 @@ const Blog = ({
     refreshBlogs()
   }
 
+  const setDeleteBtnVisibily = () => {
+    if (showAllInfo && blog.user.id === user.userId) {
+      return true
+    }
+  }
+
+  const deleteBlog = () => {
+    if(window.confirm(`Do you want to remove blog ${blog.title} by ${blog.author}?`)) {
+      blogService.remove(blog.id)
+    }
+  }
+
   return (
     <div style={blogStyle}>
       <div>
@@ -50,6 +63,7 @@ const Blog = ({
         </div>
       </div>
       <button onClick={() => setShowAllInfo(!showAllInfo)}>{showAllInfo ? 'close' : 'view'}</button>
+      {setDeleteBtnVisibily() ? <button onClick={() => deleteBlog()}>remove</button> : null}
     </div>
   )
 }
