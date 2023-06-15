@@ -11,7 +11,6 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState('')
-  const [blogFormVisible, setBlogFormVisible] = useState(false)
 
   const getBlogs = async () => {
     return await blogService.getAll()
@@ -21,14 +20,14 @@ const App = () => {
     const blogData = await getBlogs()
     const sortedBlogs = blogData.sort((blogOne, blogTwo) => {
       return blogOne.likes < blogTwo.likes
-    }) 
+    })
 
     setBlogs( sortedBlogs )
   }
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    
+
     try {
       const user = await loginService({ username, password })
       setUser(user)
@@ -41,7 +40,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (error) {
-      showNotification('wrong username or password');
+      showNotification('wrong username or password')
     }
   }
 
@@ -54,7 +53,7 @@ const App = () => {
           value={username}
           name='Username'
           onChange={({ target }) => setUsername(target.value)}
-          />
+        />
       </div>
       <div className="password-input">
         Password
@@ -63,7 +62,7 @@ const App = () => {
           value={password}
           name='Password'
           onChange={({ target }) => setPassword(target.value)}
-          />
+        />
       </div>
       <button type="submit">login</button>
     </form>
@@ -80,7 +79,7 @@ const App = () => {
 
     setTimeout(() => {
       setNotification('')
-    }, 5000);
+    }, 5000)
   }
 
 
@@ -114,7 +113,7 @@ const App = () => {
       <button onClick={ handleLogout }>logout</button>
       <h2>blogs</h2>
       <div>{ user.username } logged in</div>
-      <BlogForm 
+      <BlogForm
         setBlogs={setBlogs}
         showNotification={showNotification}
       />

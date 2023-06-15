@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 import blogService from '../services/blogs'
 
 const Blog = ({
@@ -53,13 +53,13 @@ const Blog = ({
       </div>
       <div className="initially-hidden" style={showWhenVisible} >
         <div>
-          {blog.url} 
+          {blog.url}
         </div>
         <div>
           {blog.likes} <button onClick={increaseLikes}>Like</button>
         </div>
         <div>
-          {blog.username} 
+          {blog.username}
         </div>
       </div>
       <button onClick={() => setShowAllInfo(!showAllInfo)}>{showAllInfo ? 'close' : 'view'}</button>
