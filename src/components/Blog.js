@@ -17,7 +17,7 @@ const Blog = ({
 
   const [showAllInfo, setShowAllInfo] = useState(false)
 
-  const showWhenVisible = { display: showAllInfo ? '' : 'none' }
+  const showWhenVisible = { display: showAllInfo ? 'block' : 'none' }
 
   const increaseLikes = async () => {
 
@@ -51,7 +51,7 @@ const Blog = ({
       <div>
         <span className='blog-title'>{ blog.title }</span> <span className='blog-author'>{ blog.author }</span>
       </div>
-      <div className="url-likes-container initially-hidden" style={showWhenVisible} >
+      <div className="url-likes-container" style={showWhenVisible} >
         <div className='blog-url'>
           {blog.url}
         </div>
@@ -62,7 +62,7 @@ const Blog = ({
           {blog.username}
         </div>
       </div>
-      <button onClick={() => setShowAllInfo(!showAllInfo)}>{showAllInfo ? 'close' : 'view'}</button>
+      <button className='info-toggle-btn' onClick={() => setShowAllInfo(!showAllInfo)}>{showAllInfo ? 'close' : 'view'}</button>
       {setDeleteBtnVisibily() ? <button onClick={() => deleteBlog()}>remove</button> : null}
     </div>
   )
