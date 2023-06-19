@@ -5,6 +5,8 @@ import userEvents from '@testing-library/user-event'
 
 const userEvent = userEvents.setup()
 
+const mockHandler = jest.fn()
+
 describe('<Blog />', () => {
   let container
   const blog = {
@@ -22,7 +24,7 @@ describe('<Blog />', () => {
   }
 
   beforeEach(() => {
-    container = render(<Blog blog={blog} user={user} />).container
+    container = render(<Blog blog={blog} user={user} increaseLikes={mockHandler} />).container
   })
 
   test('renders content', () => {
@@ -49,4 +51,11 @@ describe('<Blog />', () => {
     expect(urlLikesContainer).toHaveStyle('display: block')
   })
 
+  test('clicking info-toggle-btn once shows all info', async () => {
+    const likeBtn = container.querySelector('.like-btn')
+
+    await userEvent.dblClick(likeBtn)
+
+    expect(mockHandler.mock.calls).toHaveLength(2)
+  })
 })

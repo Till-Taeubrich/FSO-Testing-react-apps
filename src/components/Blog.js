@@ -4,7 +4,7 @@ import blogService from '../services/blogs'
 const Blog = ({
   blog,
   user,
-  refreshBlogs
+  increaseLikes
 }) => {
 
   const blogStyle = {
@@ -19,20 +19,6 @@ const Blog = ({
 
   const showWhenVisible = { display: showAllInfo ? 'block' : 'none' }
 
-  const increaseLikes = async () => {
-
-    const blogData = {
-      id: blog.id,
-      user: blog.user.id,
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
-      likes: blog.likes + 1
-    }
-
-    await blogService.replace(blogData)
-    refreshBlogs()
-  }
 
   const setDeleteBtnVisibily = () => {
     if (showAllInfo && blog.user.id === user.userId) {
@@ -56,7 +42,7 @@ const Blog = ({
           {blog.url}
         </div>
         <div className='blog-likes'>
-          {blog.likes} <button onClick={increaseLikes}>Like</button>
+          {blog.likes} <button className='like-btn' onClick={increaseLikes}>Like</button>
         </div>
         <div>
           {blog.username}

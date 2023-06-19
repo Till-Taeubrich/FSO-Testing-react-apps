@@ -82,6 +82,21 @@ const App = () => {
     }, 5000)
   }
 
+  const increaseLikes = async (blog) => {
+
+    const blogData = {
+      id: blog.id,
+      user: blog.user.id,
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1
+    }
+
+    await blogService.replace(blogData)
+    refreshBlogs()
+  }
+
 
   useEffect(() => {
     refreshBlogs()
@@ -118,7 +133,7 @@ const App = () => {
         showNotification={showNotification}
       />
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} user={user} refreshBlogs={refreshBlogs} />
+        <Blog key={blog.id} blog={blog} user={user} increaseLikes={() => increaseLikes(blog)} />
       )}
     </div>
   )
