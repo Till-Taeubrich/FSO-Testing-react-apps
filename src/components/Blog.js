@@ -47,15 +47,15 @@ const Blog = ({
   }
 
   return (
-    <div style={blogStyle}>
+    <div className='blog' style={blogStyle}>
       <div>
-        {blog.title} {blog.author}
+        <span className='blog-title'>{ blog.title }</span> <span className='blog-author'>{ blog.author }</span>
       </div>
-      <div className="initially-hidden" style={showWhenVisible} >
-        <div>
+      <div className="url-likes-container initially-hidden" style={showWhenVisible} >
+        <div className='blog-url'>
           {blog.url}
         </div>
-        <div>
+        <div className='blog-likes'>
           {blog.likes} <button onClick={increaseLikes}>Like</button>
         </div>
         <div>
