@@ -3,16 +3,19 @@ import '@testing-library/jest-dom/'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
+  let container
+  const blog = {
+    author: 'test-author',
+    likes: 1,
+    title: 'test-title',
+    url: 'test-url'
+  }
+
+  beforeEach(() => {
+    container = render(<Blog blog={blog} />).container
+  })
 
   test('renders content', () => {
-    const blog = {
-      author: 'test-author',
-      likes: 1,
-      title: 'test-title',
-      url: 'test-url'
-    }
-
-    const { container } = render(<Blog blog={blog} />)
 
     const blogElement = container.querySelector('.blog')
 
