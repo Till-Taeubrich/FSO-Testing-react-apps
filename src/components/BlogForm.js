@@ -3,7 +3,8 @@ import blogService from '../services/blogs'
 
 const BlogForm = ({
   setBlogs,
-  showNotification
+  showNotification,
+  addBlog
 }) => {
 
   const [titleInput, setTitleInput] = useState('')
@@ -33,12 +34,14 @@ const BlogForm = ({
   const handleNewBlog = async (e) => {
     e.preventDefault()
 
+    const newBlog = {
+      title: titleInput,
+      author: authorInput,
+      url: urlInput
+    }
+
     try {
-      await blogService.create({
-        title: titleInput,
-        author: authorInput,
-        url: urlInput
-      })
+      await addBlog(newBlog)
 
       const blogs = await blogService.getAll()
 

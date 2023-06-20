@@ -97,6 +97,11 @@ const App = () => {
     refreshBlogs()
   }
 
+  const addBlog = async (blogData) => {
+
+    await blogService.create(blogData)
+  }
+
 
   useEffect(() => {
     refreshBlogs()
@@ -131,6 +136,7 @@ const App = () => {
       <BlogForm
         setBlogs={setBlogs}
         showNotification={showNotification}
+        addBlog={addBlog}
       />
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} user={user} increaseLikes={() => increaseLikes(blog)} />
