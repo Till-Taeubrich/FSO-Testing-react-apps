@@ -1,10 +1,8 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
 
 const BlogForm = ({
-  setBlogs,
-  showNotification,
-  addBlog
+  addBlog,
+  showNotification
 }) => {
 
   const [titleInput, setTitleInput] = useState('')
@@ -31,7 +29,7 @@ const BlogForm = ({
     setUrlInput(e.target.value)
   }
 
-  const handleNewBlog = async (e) => {
+  const handleNewBlog = (e) => {
     e.preventDefault()
 
     const newBlog = {
@@ -41,17 +39,11 @@ const BlogForm = ({
     }
 
     try {
-      await addBlog(newBlog)
-
-      const blogs = await blogService.getAll()
-
-      setBlogs(blogs)
+      addBlog(newBlog)
       setBlogFormVisible(false)
-      showNotification(`a new blog ${titleInput} by ${authorInput} added`)
     } catch (error) {
       showNotification('adding new blog failed')
     }
-
   }
 
 

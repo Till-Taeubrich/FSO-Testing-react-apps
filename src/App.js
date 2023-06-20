@@ -98,8 +98,10 @@ const App = () => {
   }
 
   const addBlog = async (blogData) => {
-
     await blogService.create(blogData)
+
+    refreshBlogs()
+    showNotification(`a new blog ${blogData.title} by ${blogData.author} added`)
   }
 
 
