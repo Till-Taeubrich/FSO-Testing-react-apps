@@ -23,3 +23,16 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', ( user, failOnStatusCode ) => {
+  if (failOnStatusCode) {
+    cy.request('POST', 'http://localhost:3003/api/login', user).then(({ body }) => {
+      localStorage.setItem('loggedUser', JSON.stringify(body))
+    })
+    return
+  }
+
+  cy.request({ 'method': 'POST', 'url': 'http://localhost:3003/api/login', 'failOnStatusCode': false, body: user }).then(({ body }) => {
+    localStorage.setItem('loggedUser', JSON.stringify(body))
+  })
+})
