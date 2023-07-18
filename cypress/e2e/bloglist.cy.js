@@ -37,4 +37,39 @@ describe('Blog app', function() {
       })
     })
   })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      const user = {
+        username: 'test',
+        password: 'test'
+      }
+
+      cy.login(user, 'failOnStatusCode')
+      cy.visit('http://localhost:3000')
+    })
+
+    it.only('A blog can be created', function() {
+      const token = `Bearer ${JSON.parse(localStorage.getItem('loggedUser')).token}`
+
+      const config = {
+        Authorization: token
+      }
+
+      const blog = {
+        'title': 'test',
+        'author': 'test',
+        'url': 'test',
+        'likes': 1
+      }
+
+      cy.request({
+        url: 'http://localhost:3003/api/blogs',
+        method: 'POST',
+        body: blog,
+        headers: config
+      })
+    })
+  })
+
 })
