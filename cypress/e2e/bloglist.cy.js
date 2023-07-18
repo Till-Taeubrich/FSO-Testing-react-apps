@@ -50,26 +50,22 @@ describe('Blog app', function() {
     })
 
     it.only('A blog can be created', function() {
-      const token = `Bearer ${JSON.parse(localStorage.getItem('loggedUser')).token}`
+      cy.addBlog()
+    })
 
-      const config = {
-        Authorization: token
-      }
+    it.only('A blog can be liked', function() {
+      cy.addBlog().then(res => {
+        const blog = res.body
+        const blogId = res.body.id
 
-      const blog = {
-        'title': 'test',
-        'author': 'test',
-        'url': 'test',
-        'likes': 1
-      }
+        blog.likes = blog.likes + 1
 
-      cy.request({
-        url: 'http://localhost:3003/api/blogs',
-        method: 'POST',
-        body: blog,
-        headers: config
+        cy.request('PUT', `/api/blogs/${blogId}`, blog)
+
+        cy.request('GET', '/api/blogs').should(res => {
+          expect(res.body[0].likes).to.eq(2)
+        })
       })
     })
   })
-
 })

@@ -36,3 +36,25 @@ Cypress.Commands.add('login', ( user, failOnStatusCode ) => {
     localStorage.setItem('loggedUser', JSON.stringify(body))
   })
 })
+
+Cypress.Commands.add('addBlog', () => {
+  const token = `Bearer ${JSON.parse(localStorage.getItem('loggedUser')).token}`
+
+  const config = {
+    Authorization: token
+  }
+
+  const blog = {
+    'title': 'test',
+    'author': 'test',
+    'url': 'test',
+    'likes': 1
+  }
+
+  cy.request({
+    url: 'http://localhost:3003/api/blogs',
+    method: 'POST',
+    body: blog,
+    headers: config
+  })
+})
