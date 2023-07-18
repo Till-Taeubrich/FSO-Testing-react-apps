@@ -21,7 +21,7 @@ describe('Blog app', function() {
         password: 'test'
       }
 
-      cy.request('POST', 'http://localhost:3003/api/login', user).should((response) => {
+      cy.login(user, 'failOnStatusCode').should((response) => {
         expect(response.status).to.eq(200)
       })
     })
@@ -32,7 +32,7 @@ describe('Blog app', function() {
         password: 'wrong credentials'
       }
 
-      cy.request({ 'method': 'POST', 'url': 'http://localhost:3003/api/login', user, failOnStatusCode: false }).should((response) => {
+      cy.login(user).should((response) => {
         expect(response.status).to.eq(401)
       })
     })
