@@ -58,3 +58,42 @@ Cypress.Commands.add('addBlog', () => {
     headers: config
   })
 })
+
+Cypress.Commands.add('addMultipleBlogs', () => {
+  const token = `Bearer ${JSON.parse(localStorage.getItem('loggedUser')).token}`
+
+  const config = {
+    Authorization: token
+  }
+
+  const blogs = [
+    {
+      title: 'The title with the least likes',
+      author: 'test',
+      url: 'test',
+      likes: 0,
+    },
+    {
+      title: 'The title with the 2nd most likes',
+      author: 'test-two',
+      url: 'test-two',
+      likes: 1
+    },
+    {
+      title: 'The title with the most likes',
+      author: 'test-three',
+      url: 'test-three',
+      likes: 2
+    }
+  ]
+
+  blogs.forEach(blog => {
+    cy.request({
+      url: 'http://localhost:3003/api/blogs',
+      method: 'POST',
+      body: blog,
+      headers: config
+    })
+  })
+
+})

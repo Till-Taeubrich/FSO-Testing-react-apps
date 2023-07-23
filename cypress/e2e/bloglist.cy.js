@@ -87,7 +87,7 @@ describe('Blog app', function() {
       })
     })
 
-    it.only('Only the creator can see the blog delete button', function() {
+    it('Only the creator can see the blog delete button', function() {
       cy.addBlog()
 
       cy.then(() => {
@@ -114,6 +114,15 @@ describe('Blog app', function() {
         cy.get('.info-toggle-btn').click()
         cy.get('.remove-btn').should('not.exist')
       })
+    })
+
+    it.only('Blogs are sorted with the most likes being first.', function() {
+      cy.addMultipleBlogs()
+      cy.reload()
+
+      cy.get('.blog').eq(0).should('contain', 'The title with the most likes')
+      cy.get('.blog').eq(1).should('contain', 'The title with the 2nd most likes')
+      cy.get('.blog').eq(2).should('contain', 'The title with the least likes')
     })
   })
 })
