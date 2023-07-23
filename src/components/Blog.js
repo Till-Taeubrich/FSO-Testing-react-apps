@@ -49,7 +49,7 @@ const Blog = ({
         </div>
       </div>
       <button className='info-toggle-btn' onClick={() => setShowAllInfo(!showAllInfo)}>{showAllInfo ? 'close' : 'view'}</button>
-      {setDeleteBtnVisibily() ? <button onClick={() => deleteBlog()}>remove</button> : null}
+      {setDeleteBtnVisibily() ? <button className='remove-btn' onClick={() => deleteBlog()}>remove</button> : null}
     </div>
   )
 }

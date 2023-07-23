@@ -85,7 +85,35 @@ describe('Blog app', function() {
           headers: config
         })
       })
+    })
 
+    it.only('Only the creator can see the blog delete button', function() {
+      cy.addBlog()
+
+      cy.then(() => {
+        cy.visit('http://localhost:3000')
+
+        cy.get('.info-toggle-btn').click()
+        cy.get('.remove-btn')
+      })
+
+      cy.then(() => {
+        localStorage.removeItem('loggedUser')
+        cy.reload()
+
+        const userr = {
+          username: 'newUser',
+          password: 'newUser'
+        }
+
+        cy.request('POST', 'http://localhost:3003/api/users', userr)
+
+        cy.login(userr, 'failOnStatusCode')
+        cy.visit('http://localhost:3000')
+
+        cy.get('.info-toggle-btn').click()
+        cy.get('.remove-btn').should('not.exist')
+      })
     })
   })
 })
